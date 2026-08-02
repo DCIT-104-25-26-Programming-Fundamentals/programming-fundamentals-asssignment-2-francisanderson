@@ -81,5 +81,280 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <limits>
 using namespace std;
+
+
+// Student structure
+struct Student
+{
+    string name;
+    int id;
+    vector<double> scores;
+};
+
+
+// Function prototypes
+bool getInt(string message, int &value);
+bool getDouble(string message, double &value);
+void addStudent(vector<Student> &students);
+void displayStudents(vector<Student> students);
+void calculateAverage(vector<Student> students);
+
+
+
+// Integer input validation
+bool getInt(string message, int &value)
+{
+    while (true)
+    {
+        cout << message;
+
+
+        if (cin >> value)
+        {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return true;
+        }
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            cout << "Invalid input. Enter a number.\n";
+        }
+    }
+}
+
+
+
+// Double input validation
+bool getDouble(string message, double &value)
+{
+    while (true)
+    {
+        cout << message;
+
+
+        if (cin >> value)
+        {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return true;
+        }
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            cout << "Invalid input. Enter a number.\n";
+        }
+    }
+}
+
+
+
+// Feature 1 - Add Student
+void addStudent(vector<Student> &students)
+{
+    Student student;
+
+
+    cout << "Student name: ";
+    getline(cin, student.name);
+
+
+    if (student.name.empty())
+    {
+        cout << "Name cannot be empty.\n";
+        return;
+    }
+
+
+    getInt("Student ID: ", student.id);
+
+
+    int numberOfScores;
+
+
+    getInt("How many scores? ", numberOfScores);
+
+
+    if (numberOfScores <= 0)
+    {
+        cout << "Number of scores must be positive.\n";
+        return;
+    }
+
+
+    for (int i = 0; i < numberOfScores; i++)
+    {
+        double score;
+
+
+        getDouble("Enter score " + to_string(i + 1) + ": ", score);
+
+
+        student.scores.push_back(score);
+    }
+
+
+    students.push_back(student);
+
+
+    cout << "Student \"" << student.name 
+         << "\" added successfully.\n";
+}
+
+
+
+// Calculate average
+double getAverage(Student student)
+{
+    double total = 0;
+
+
+    for (double score : student.scores)
+    {
+        total += score;
+    }
+
+
+    return total / student.scores.size();
+}
+
+
+
+// Feature 2 - Display Students
+void displayStudents(vector<Student> students)
+{
+    if (students.empty())
+    {
+        cout << "No student records available.\n";
+        return;
+    }
+
+
+    cout << "\nStudent Records:\n";
+
+
+    for (Student student : students)
+    {
+        cout << "\nName: " << student.name << endl;
+        cout << "ID: " << student.id << endl;
+
+
+        cout << "Scores: ";
+
+
+        for (double score : student.scores)
+        {
+            cout << score << " ";
+        }
+
+
+        cout << endl;
+
+
+        cout << fixed << setprecision(2);
+        cout << "Average Score: " 
+             << getAverage(student) << endl;
+    }
+}
+
+
+
+// Feature 3 - Calculate specific student's average
+void calculateAverage(vector<Student> students)
+{
+    int id;
+
+
+    getInt("Enter student ID: ", id);
+
+
+
+    for (Student student : students)
+    {
+        if (student.id == id)
+        {
+            cout << fixed << setprecision(2);
+
+            cout << student.name 
+                 << "'s average score: "
+                 << getAverage(student)
+                 << endl;
+
+            return;
+        }
+    }
+
+
+    cout << "Student ID not found.\n";
+}
+
+
+
+int main()
+{
+    vector<Student> students;
+
+
+    while (true)
+    {
+        string choice;
+
+
+        cout << "\n================================\n";
+        cout << "   STUDENT RECORD SYSTEM MENU\n";
+        cout << "================================\n";
+        cout << "1. Add student\n";
+        cout << "2. Display all students\n";
+        cout << "3. Calculate average score\n";
+        cout << "4. Quit\n";
+        cout << "Enter your choice (1-4): ";
+
+
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+
+
+        if (choice == "4" || choice == "q" || choice == "Q")
+        {
+            cout << "Goodbye!\n";
+            break;
+        }
+
+
+        else if (choice == "1")
+        {
+            addStudent(students);
+        }
+
+
+        else if (choice == "2")
+        {
+            displayStudents(students);
+        }
+
+
+        else if (choice == "3")
+        {
+            calculateAverage(students);
+        }
+
+
+        else
+        {
+            cout << "Invalid choice. Enter 1, 2, 3 or 4.\n";
+        }
+    }
+
+
+    return 0;
+}
 
