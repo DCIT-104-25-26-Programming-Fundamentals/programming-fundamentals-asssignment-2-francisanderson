@@ -71,5 +71,228 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <limits>
+#include <string>
 using namespace std;
+
+
+// Function prototypes
+bool getDouble(string message, double &value);
+double add(double a, double b);
+double subtract(double a, double b);
+double multiply(double a, double b);
+bool divide(double a, double b, double &result);
+int modulus(int a, int b);
+double exponent(double base, int power);
+
+
+
+// Input validation
+bool getDouble(string message, double &value)
+{
+    while (true)
+    {
+        cout << message;
+
+
+        if (cin >> value)
+        {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return true;
+        }
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            cout << "Invalid input. Enter a number.\n";
+        }
+    }
+}
+
+
+
+// Addition
+double add(double a, double b)
+{
+    return a + b;
+}
+
+
+
+// Subtraction
+double subtract(double a, double b)
+{
+    return a - b;
+}
+
+
+
+// Multiplication
+double multiply(double a, double b)
+{
+    return a * b;
+}
+
+
+
+// Division
+bool divide(double a, double b, double &result)
+{
+    if (b == 0)
+    {
+        return false;
+    }
+
+
+    result = a / b;
+
+    return true;
+}
+
+
+
+// Modulus
+int modulus(int a, int b)
+{
+    return a % b;
+}
+
+
+
+// Exponentiation
+double exponent(double base, int power)
+{
+    double result = 1;
+
+
+    for (int i = 0; i < power; i++)
+    {
+        result *= base;
+    }
+
+
+    return result;
+}
+
+
+
+int main()
+{
+    while (true)
+    {
+        string choice;
+
+
+        cout << "       SIMPLE CALCULATOR\n";
+        cout << "1. Addition\n";
+        cout << "2. Subtraction\n";
+        cout << "3. Multiplication\n";
+        cout << "4. Division\n";
+        cout << "5. Modulus\n";
+        cout << "6. Exponentiation\n";
+        cout << "7. Quit\n";
+        cout << "Select an operation (1-7): ";
+
+
+        cin >> choice;
+
+
+        if (choice == "7" || choice == "q" || choice == "Q")
+        {
+            cout << "Goodbye!\n";
+            break;
+        }
+
+
+        else if (choice >= "1" && choice <= "6")
+        {
+            double first, second;
+
+
+            getDouble("Enter first number: ", first);
+            getDouble("Enter second number: ", second);
+
+
+
+            cout << fixed << setprecision(2);
+
+
+            if (choice == "1")
+            {
+                cout << "Result: "
+                     << add(first, second)
+                     << endl;
+            }
+
+
+            else if (choice == "2")
+            {
+                cout << "Result: "
+                     << subtract(first, second)
+                     << endl;
+            }
+
+
+            else if (choice == "3")
+            {
+                cout << "Result: "
+                     << multiply(first, second)
+                     << endl;
+            }
+
+
+            else if (choice == "4")
+            {
+                double result;
+
+
+                if (divide(first, second, result))
+                {
+                    cout << "Result: "
+                         << result
+                         << endl;
+                }
+                else
+                {
+                    cout << "Error: Cannot divide by zero.\n";
+                }
+            }
+
+
+            else if (choice == "5")
+            {
+                if ((int)second == 0)
+                {
+                    cout << "Error: Cannot perform modulus by zero.\n";
+                }
+                else
+                {
+                    cout << "Result: "
+                         << modulus((int)first, (int)second)
+                         << endl;
+                }
+            }
+
+
+            else if (choice == "6")
+            {
+                cout << "Result: "
+                     << exponent(first, (int)second)
+                     << endl;
+            }
+        }
+
+
+        else
+        {
+            cout << "Invalid choice. Enter 1-7 or Q.\n";
+        }
+    }
+
+
+    return 0;
+}
 
