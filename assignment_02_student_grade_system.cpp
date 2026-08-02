@@ -44,5 +44,137 @@
 // =============================================================================
 
 #include <iostream>
+#include <limits>
+#include <string>
 using namespace std;
 
+
+// Function prototype
+char getGrade(double score);
+bool getDouble(string message, double &value);
+
+
+
+// Input validation
+bool getDouble(string message, double &value)
+{
+    while (true)
+    {
+        cout << message;
+
+
+        if (cin >> value)
+        {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return true;
+        }
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            cout << "Invalid input. Enter a number.\n";
+        }
+    }
+}
+
+
+
+// Determine grade
+char getGrade(double score)
+{
+    if (score < 0 || score > 100)
+    {
+        return '\0';
+    }
+
+
+    if (score >= 80)
+    {
+        return 'A';
+    }
+
+    else if (score >= 70)
+    {
+        return 'B';
+    }
+
+    else if (score >= 60)
+    {
+        return 'C';
+    }
+
+    else if (score >= 50)
+    {
+        return 'D';
+    }
+
+    else
+    {
+        return 'F';
+    }
+}
+
+
+
+int main()
+{
+    while (true)
+    {
+        string choice;
+
+
+        cout << "\n============================\n";
+        cout << "      STUDENT GRADE SYSTEM\n";
+        cout << "============================\n";
+        cout << "1. Check Grade\n";
+        cout << "Q. Quit\n";
+        cout << "Enter choice: ";
+
+
+        cin >> choice;
+
+
+
+        if (choice == "q" || choice == "Q")
+        {
+            cout << "Goodbye!\n";
+            break;
+        }
+
+
+        else if (choice == "1")
+        {
+            double score;
+
+
+            getDouble("Enter student score (0-100): ", score);
+
+
+            char grade = getGrade(score);
+
+
+
+            if (grade == '\0')
+            {
+                cout << "Error: Score must be between 0 and 100.\n";
+            }
+
+            else
+            {
+                cout << "Grade: " << grade << endl;
+            }
+        }
+
+
+        else
+        {
+            cout << "Invalid choice. Enter 1 or Q.\n";
+        }
+    }
+
+
+    return 0;
+}
