@@ -55,5 +55,133 @@
 // =============================================================================
 
 #include <iostream>
+#include <limits>
+#include <string>
 using namespace std;
 
+
+// Function prototypes
+bool getInt(string message, int &value);
+void singleTable(int number);
+void tablesFromOneToN(int n);
+
+
+// Input validation
+bool getInt(string message, int &value)
+{
+    while (true)
+    {
+        cout << message;
+
+        if (cin >> value)
+        {
+            return true;
+        }
+
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            cout << "Invalid input. Enter a number.\n";
+        }
+    }
+}
+
+
+
+// PART A - Single multiplication table
+void singleTable(int number)
+{
+    cout << "\nMultiplication Table for " << number << ":\n";
+
+
+    for (int i = 1; i <= 12; i++)
+    {
+        cout << number << " x " << i 
+             << " = " << number * i << endl;
+    }
+}
+
+
+
+// PART B - Tables from 1 to N
+void tablesFromOneToN(int n)
+{
+    if (n <= 0)
+    {
+        cout << "Number must be positive.\n";
+        return;
+    }
+
+
+    for (int number = 1; number <= n; number++)
+    {
+        cout << "\nMultiplication Table for " << number << ":\n";
+
+
+        for (int i = 1; i <= 12; i++)
+        {
+            cout << number << " x " << i 
+                 << " = " << number * i << endl;
+        }
+
+    }
+}
+
+
+
+int main()
+{
+    while (true)
+    {
+        string choice;
+
+
+        cout << "\n===== MULTIPLICATION TABLE GENERATOR =====\n";
+        cout << "1. Generate Single Table\n";
+        cout << "2. Generate Tables From 1 to N\n";
+        cout << "Q. Quit\n";
+        cout << "Enter choice: ";
+
+        cin >> choice;
+
+
+        if (choice == "q" || choice == "Q")
+        {
+            break;
+        }
+
+
+        else if (choice == "1")
+        {
+            int number;
+
+            getInt("Enter number: ", number);
+
+            singleTable(number);
+        }
+
+
+        else if (choice == "2")
+        {
+            int n;
+
+            getInt("Enter N: ", n);
+
+            tablesFromOneToN(n);
+        }
+
+
+        else
+        {
+            cout << "Invalid choice. Enter 1, 2 or Q.\n";
+        }
+    }
+
+
+    cout << "Program ended.\n";
+
+    return 0;
+}
